@@ -4,6 +4,7 @@ import residentRoutes from './residentRoutes';
 import vitalRoutes from './vitalRoutes';
 import alertRoutes from './alertRoutes';
 import userRoutes from './userRoutes';
+import analyticsRoutes from './analyticsRoutes';
 
 const router = Router();
 
@@ -22,5 +23,6 @@ router.use('/residents', residentRoutes);
 router.use('/vitals', vitalRoutes);
 router.use('/alerts', alertRoutes);
 router.use('/users', userRoutes);
+router.use('/analytics', analyticsRoutes);
 
 export default router;

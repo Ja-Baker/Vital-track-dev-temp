@@ -9,6 +9,19 @@ const router = Router();
 // All routes require authentication
 router.use(authenticate);
 
+// Register device token for push notifications (any authenticated user)
+// Must be before /:id routes to avoid conflict
+router.post(
+  '/device-token',
+  userController.registerDeviceToken
+);
+
+// Unregister device token (any authenticated user)
+router.delete(
+  '/device-token',
+  userController.unregisterDeviceToken
+);
+
 // Get all users (admin only)
 router.get(
   '/',

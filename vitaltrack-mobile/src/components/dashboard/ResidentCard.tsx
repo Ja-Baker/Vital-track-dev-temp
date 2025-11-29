@@ -38,8 +38,15 @@ const ResidentCard: React.FC<ResidentCardProps> = ({ resident, onPress }) => {
     return 'Normal';
   };
 
+  const residentFullName = `${resident.firstName} ${resident.lastName}`;
+  const accessibilityLabel = `${residentFullName}, Room ${resident.roomNumber}, Status: ${getStatusText()}${hasActiveAlerts ? `, ${resident.activeAlerts} active alerts` : ''}`;
+
   return (
-    <Card onPress={onPress}>
+    <Card
+      onPress={onPress}
+      accessibilityLabel={accessibilityLabel}
+      accessibilityHint="Double tap to view resident details"
+    >
       <View style={styles.header}>
         {/* Avatar and Name */}
         <View style={styles.avatarSection}>
@@ -131,6 +138,7 @@ const ResidentCard: React.FC<ResidentCardProps> = ({ resident, onPress }) => {
             text={resident.activeAlerts!}
             type="error"
             size="small"
+            accessibilityLabel={`${resident.activeAlerts} active alerts`}
           />
         )}
       </View>

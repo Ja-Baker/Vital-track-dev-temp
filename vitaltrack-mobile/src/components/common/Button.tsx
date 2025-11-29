@@ -13,6 +13,8 @@ interface ButtonProps {
   style?: ViewStyle;
   labelStyle?: TextStyle;
   fullWidth?: boolean;
+  accessibilityLabel?: string;
+  accessibilityHint?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -25,6 +27,8 @@ const Button: React.FC<ButtonProps> = ({
   style,
   labelStyle,
   fullWidth = false,
+  accessibilityLabel,
+  accessibilityHint,
 }) => {
   return (
     <PaperButton
@@ -40,6 +44,11 @@ const Button: React.FC<ButtonProps> = ({
       labelStyle={[styles.label, labelStyle]}
       contentStyle={styles.content}
       loading={loading}
+      accessible={true}
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel || title}
+      accessibilityHint={accessibilityHint}
+      accessibilityState={{ disabled: disabled || loading, busy: loading }}
     >
       {loading ? <ActivityIndicator color="#FFFFFF" /> : title}
     </PaperButton>

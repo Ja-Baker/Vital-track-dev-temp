@@ -198,3 +198,40 @@ export const resetUserPassword = asyncHandler(async (req: Request, res: Response
     },
   });
 });
+
+// Register device token for push notifications
+export const registerDeviceToken = asyncHandler(async (req: Request, res: Response) => {
+  const userId = req.user!.userId;
+  const { fcmToken } = req.body;
+
+  if (!fcmToken) {
+    throw new AppError('FCM token is required', 400);
+  }
+
+  const success = await notificationService.registerDeviceToken(userId, fcmToken);
+
+  if (!success) {
+    throw new AppError('Failed to register device token', 500);
+  }
+
+  logger.info('Device token registered', { userId });
+
+  res.status(200).json({
+    success: true,
+    message: 'Device token registered successfully',
+  });
+});
+
+// Unregister device token (for logout)
+export const unregisterDeviceToken = asyncHandler(async (req: Request, res: Response) => {
+  const userId = req.user!.userId;
+
+  await notificationService.unregisterDeviceToken(userId);
+
+  logger.info('Device token unregistered', { userId });
+
+  res.status(200).json({
+    success: true,
+    message: 'Device token unregistered successfully',
+  });
+});

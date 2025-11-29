@@ -120,6 +120,8 @@ const AlertCard: React.FC<AlertCardProps> = ({
   const showResolve = alert.status === 'acknowledged' && onResolve;
   const showEscalate = alert.alertType === 'critical' && alert.status === 'active' && onEscalate;
 
+  const accessibilityLabel = `${alert.alertType} alert for ${residentName}, Room ${alert.resident?.roomNumber || 'unknown'}. ${alert.message}. Status: ${alert.status}. ${formatTimeAgo(alert.createdAt)}`;
+
   return (
     <>
       <TouchableOpacity
@@ -127,6 +129,10 @@ const AlertCard: React.FC<AlertCardProps> = ({
         onPress={() => onPress?.(alert.id)}
         activeOpacity={0.7}
         disabled={!onPress}
+        accessible={true}
+        accessibilityRole="button"
+        accessibilityLabel={accessibilityLabel}
+        accessibilityHint={onPress ? "Double tap to view alert details" : undefined}
       >
         {/* Alert Type Indicator */}
         <View style={[styles.typeIndicator, { backgroundColor: alertColor }]} />
@@ -152,6 +158,7 @@ const AlertCard: React.FC<AlertCardProps> = ({
               text={alert.status}
               type={getBadgeType(alert.status)}
               size="small"
+              accessibilityLabel={`Alert status: ${alert.status}`}
             />
           </View>
 
@@ -207,6 +214,7 @@ const AlertCard: React.FC<AlertCardProps> = ({
                     style={styles.actionButton}
                     labelStyle={styles.actionButtonLabel}
                     loading={isLoading}
+                    accessibilityHint="Acknowledge this alert to indicate you are aware of it"
                   />
                 )}
                 {showResolve && (
@@ -217,6 +225,7 @@ const AlertCard: React.FC<AlertCardProps> = ({
                     style={[styles.actionButton, { backgroundColor: colors.success }]}
                     labelStyle={styles.actionButtonLabel}
                     loading={isLoading}
+                    accessibilityHint="Mark this alert as resolved"
                   />
                 )}
                 {showEscalate && (
@@ -227,6 +236,7 @@ const AlertCard: React.FC<AlertCardProps> = ({
                     style={styles.actionButton}
                     labelStyle={[styles.actionButtonLabel, { color: colors.error }]}
                     loading={isLoading}
+                    accessibilityHint="Escalate this alert to higher priority"
                   />
                 )}
               </View>
@@ -241,10 +251,11 @@ const AlertCard: React.FC<AlertCardProps> = ({
         transparent
         animationType="fade"
         onRequestClose={handleResolveCancel}
+        accessibilityViewIsModal={true}
       >
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Resolve Alert</Text>
+          <View style={styles.modalContent} accessibilityRole="alert">
+            <Text style={styles.modalTitle} accessibilityRole="header">Resolve Alert</Text>
             <Text style={styles.modalMessage}>
               Add optional notes about the resolution:
             </Text>

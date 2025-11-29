@@ -9,6 +9,7 @@ interface BadgeProps {
   size?: 'small' | 'medium' | 'large';
   style?: ViewStyle;
   textStyle?: TextStyle;
+  accessibilityLabel?: string;
 }
 
 const Badge: React.FC<BadgeProps> = ({
@@ -17,6 +18,7 @@ const Badge: React.FC<BadgeProps> = ({
   size = 'medium',
   style,
   textStyle,
+  accessibilityLabel,
 }) => {
   const getBackgroundColor = () => {
     switch (type) {
@@ -82,6 +84,9 @@ const Badge: React.FC<BadgeProps> = ({
         { backgroundColor: getBackgroundColor() },
         style,
       ]}
+      accessible={true}
+      accessibilityRole="text"
+      accessibilityLabel={accessibilityLabel || `${type} badge: ${text}`}
     >
       <Text
         style={[

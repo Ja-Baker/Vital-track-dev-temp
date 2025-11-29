@@ -171,6 +171,47 @@ export class NotificationService {
     }
   }
 
+  async registerDeviceToken(userId: string, fcmToken: string): Promise<boolean> {
+    try {
+      const user = await User.findByPk(userId);
+      if (!user) {
+        logger.warn('User not found for device token registration', { userId });
+        return false;
+      }
+
+      await user.update({
+        fcmToken,
+        fcmTokenUpdatedAt: new Date(),
+      });
+
+      logger.info('Device token registered', { userId });
+      return true;
+    } catch (error) {
+      logger.error('Device token registration failed', { error, userId });
+      return false;
+    }
+  }
+
+  async unregisterDeviceToken(userId: string): Promise<boolean> {
+    try {
+      const user = await User.findByPk(userId);
+      if (!user) {
+        return false;
+      }
+
+      await user.update({
+        fcmToken: null,
+        fcmTokenUpdatedAt: null,
+      });
+
+      logger.info('Device token unregistered', { userId });
+      return true;
+    } catch (error) {
+      logger.error('Device token unregistration failed', { error, userId });
+      return false;
+    }
+  }
+
   async notifyStaffOfAlert(
     facilityId: string,
     alertTitle: string,
@@ -191,13 +232,26 @@ export class NotificationService {
         return;
       }
 
-      // TODO: Get device tokens from user records (would need to add fcmToken field to User model)
-      // For now, just log
-      logger.info('Would notify staff of alert', {
-        facilityId,
-        staffCount: staff.length,
-        alertTitle,
-      });
+      // Send push notifications to staff with FCM tokens
+      const fcmTokens = staff
+        .filter(s => s.fcmToken)
+        .map(s => s.fcmToken!);
+
+      if (fcmTokens.length > 0) {
+        await this.sendPushNotification({
+          tokens: fcmTokens,
+          title: alertTitle,
+          body: alertMessage,
+          data: data || {},
+          priority: data?.alertType === 'critical' ? 'high' : 'normal',
+        });
+
+        logger.info('Push notifications sent to staff', {
+          facilityId,
+          tokenCount: fcmTokens.length,
+          alertTitle,
+        });
+      }
 
       // Send SMS to staff with phone numbers (for critical alerts)
       if (data?.alertType === 'critical') {
