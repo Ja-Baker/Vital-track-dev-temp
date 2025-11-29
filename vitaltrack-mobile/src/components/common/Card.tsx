@@ -8,6 +8,8 @@ interface CardProps {
   onPress?: () => void;
   style?: ViewStyle;
   elevation?: number;
+  accessibilityLabel?: string;
+  accessibilityHint?: string;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -15,6 +17,8 @@ const Card: React.FC<CardProps> = ({
   onPress,
   style,
   elevation = 2,
+  accessibilityLabel,
+  accessibilityHint,
 }) => {
   const CardComponent = onPress ? TouchableOpacity : PaperCard;
   const cardProps = onPress
@@ -22,10 +26,16 @@ const Card: React.FC<CardProps> = ({
         onPress,
         activeOpacity: 0.7,
         style: [styles.card, style],
+        accessible: true,
+        accessibilityRole: 'button' as const,
+        accessibilityLabel,
+        accessibilityHint,
       }
     : {
         elevation,
         style: [styles.card, style],
+        accessible: true,
+        accessibilityLabel,
       };
 
   return <CardComponent {...cardProps}>{children}</CardComponent>;

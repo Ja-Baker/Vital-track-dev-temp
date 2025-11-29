@@ -22,6 +22,8 @@ interface TextInputProps {
   onIconPress?: () => void;
   style?: ViewStyle;
   testID?: string;
+  accessibilityLabel?: string;
+  accessibilityHint?: string;
 }
 
 const TextInput: React.FC<TextInputProps> = ({
@@ -43,6 +45,8 @@ const TextInput: React.FC<TextInputProps> = ({
   onIconPress,
   style,
   testID,
+  accessibilityLabel,
+  accessibilityHint,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -96,6 +100,10 @@ const TextInput: React.FC<TextInputProps> = ({
           error && styles.outlineError,
         ]}
         testID={testID}
+        accessible={true}
+        accessibilityLabel={accessibilityLabel || label}
+        accessibilityHint={accessibilityHint || placeholder}
+        accessibilityState={{ disabled: disabled || !editable }}
       />
       {error && (
         <HelperText type="error" visible={!!error} style={styles.helperText}>

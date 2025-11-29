@@ -8,6 +8,7 @@ import { useAppSelector } from '../store/hooks';
 // Import screens
 import DashboardScreen from '../screens/DashboardScreen';
 import AlertsScreen from '../screens/AlertsScreen';
+import AnalyticsScreen from '../screens/AnalyticsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
@@ -69,6 +70,16 @@ const MainNavigator: React.FC = () => {
             <MaterialCommunityIcons name="bell-alert" size={size} color={color} />
           ),
           tabBarBadge: activeAlertCount > 0 ? activeAlertCount : undefined,
+        }}
+      />
+      <Tab.Screen
+        name="Analytics"
+        component={AnalyticsScreen}
+        options={{
+          title: 'Analytics',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="chart-line" size={size} color={color} />
+          ),
         }}
       />
       <Tab.Screen

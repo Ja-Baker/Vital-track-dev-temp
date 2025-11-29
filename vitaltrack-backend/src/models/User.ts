@@ -23,11 +23,13 @@ interface UserAttributes {
   refreshToken: string | null;
   resetPasswordToken: string | null;
   resetPasswordExpires: Date | null;
+  fcmToken: string | null;
+  fcmTokenUpdatedAt: Date | null;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'phoneNumber' | 'lastLoginAt' | 'refreshToken' | 'resetPasswordToken' | 'resetPasswordExpires' | 'createdAt' | 'updatedAt'> {}
+interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'phoneNumber' | 'lastLoginAt' | 'refreshToken' | 'resetPasswordToken' | 'resetPasswordExpires' | 'fcmToken' | 'fcmTokenUpdatedAt' | 'createdAt' | 'updatedAt'> {}
 
 class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
   public id!: string;
@@ -43,6 +45,8 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
   public refreshToken!: string | null;
   public resetPasswordToken!: string | null;
   public resetPasswordExpires!: Date | null;
+  public fcmToken!: string | null;
+  public fcmTokenUpdatedAt!: Date | null;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -143,6 +147,16 @@ User.init(
       type: DataTypes.DATE,
       allowNull: true,
       field: 'reset_password_expires',
+    },
+    fcmToken: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      field: 'fcm_token',
+    },
+    fcmTokenUpdatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'fcm_token_updated_at',
     },
   },
   {

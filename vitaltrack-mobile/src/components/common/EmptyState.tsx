@@ -21,15 +21,20 @@ const EmptyState: React.FC<EmptyStateProps> = ({
   onAction,
 }) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.iconContainer}>
+    <View
+      style={styles.container}
+      accessible={true}
+      accessibilityRole="text"
+      accessibilityLabel={`${title}. ${message}`}
+    >
+      <View style={styles.iconContainer} accessibilityElementsHidden={true}>
         <MaterialCommunityIcons
           name={icon}
           size={80}
           color={colors.textLight}
         />
       </View>
-      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.title} accessibilityRole="header">{title}</Text>
       <Text style={styles.message}>{message}</Text>
       {actionLabel && onAction && (
         <Button
@@ -37,6 +42,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
           onPress={onAction}
           mode="outlined"
           style={styles.button}
+          accessibilityHint={`Tap to ${actionLabel.toLowerCase()}`}
         />
       )}
     </View>

@@ -16,14 +16,16 @@ import authReducer from './slices/authSlice';
 import residentsReducer from './slices/residentsSlice';
 import vitalsReducer from './slices/vitalsSlice';
 import alertsReducer from './slices/alertsSlice';
+import themeReducer from './slices/themeSlice';
+import networkReducer from './slices/networkSlice';
 
 // Redux persist config
 const persistConfig = {
   key: 'root',
-  version: 1,
+  version: 2,
   storage: AsyncStorage,
-  whitelist: ['auth'], // Only persist auth state
-  blacklist: ['residents', 'vitals', 'alerts'], // Don't persist these (refetch on app start)
+  whitelist: ['auth', 'theme', 'residents', 'network'], // Persist for offline support
+  blacklist: ['vitals', 'alerts'], // Don't persist these (refetch on app start)
 };
 
 // Combine reducers
@@ -32,6 +34,8 @@ const rootReducer = combineReducers({
   residents: residentsReducer,
   vitals: vitalsReducer,
   alerts: alertsReducer,
+  theme: themeReducer,
+  network: networkReducer,
 });
 
 // Create persisted reducer

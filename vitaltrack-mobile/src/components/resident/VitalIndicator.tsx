@@ -126,9 +126,18 @@ const VitalIndicator: React.FC<VitalIndicatorProps> = ({
 
   const color = getColor();
 
+  const accessibilityValue = value !== undefined && value !== null
+    ? `${getLabel()}: ${getFormattedValue()}`
+    : `${getLabel()}: No data available`;
+
   return (
-    <View style={styles.container}>
-      <View style={styles.iconValueContainer}>
+    <View
+      style={styles.container}
+      accessible={true}
+      accessibilityRole="text"
+      accessibilityLabel={accessibilityValue}
+    >
+      <View style={styles.iconValueContainer} accessibilityElementsHidden={true}>
         <MaterialCommunityIcons
           name={getIcon()}
           size={getIconSize()}
@@ -140,7 +149,7 @@ const VitalIndicator: React.FC<VitalIndicatorProps> = ({
         </Text>
       </View>
       {showLabel && (
-        <Text style={[styles.label, getLabelSize()]}>{getLabel()}</Text>
+        <Text style={[styles.label, getLabelSize()]} accessibilityElementsHidden={true}>{getLabel()}</Text>
       )}
     </View>
   );

@@ -11,6 +11,7 @@ import { Text } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { logout, changePassword, clearError } from '../store/slices/authSlice';
+import { setThemeMode, ThemeMode } from '../store/slices/themeSlice';
 import { colors, spacing, borderRadius, shadows } from '../theme/theme';
 import { formatRole, formatInitials, formatPhoneNumber } from '../utils/formatters';
 import Button from '../components/common/Button';
@@ -20,8 +21,10 @@ import Badge from '../components/common/Badge';
 const ProfileScreen: React.FC = () => {
   const dispatch = useAppDispatch();
   const { user, facility, isLoading } = useAppSelector((state) => state.auth);
+  const { mode: themeMode, isDark } = useAppSelector((state) => state.theme);
 
   const [showChangePassword, setShowChangePassword] = useState(false);
+  const [showThemeModal, setShowThemeModal] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -88,6 +91,33 @@ const ProfileScreen: React.FC = () => {
     setConfirmPassword('');
     setPasswordError('');
     dispatch(clearError());
+  };
+
+  const handleThemeChange = (mode: ThemeMode) => {
+    dispatch(setThemeMode(mode));
+    setShowThemeModal(false);
+  };
+
+  const getThemeLabel = (mode: ThemeMode): string => {
+    switch (mode) {
+      case 'light':
+        return 'Light';
+      case 'dark':
+        return 'Dark';
+      case 'system':
+        return 'System Default';
+    }
+  };
+
+  const getThemeIcon = (mode: ThemeMode): string => {
+    switch (mode) {
+      case 'light':
+        return 'white-balance-sunny';
+      case 'dark':
+        return 'moon-waning-crescent';
+      case 'system':
+        return 'theme-light-dark';
+    }
   };
 
   if (!user || !facility) {
@@ -198,6 +228,10 @@ const ProfileScreen: React.FC = () => {
           <TouchableOpacity
             style={styles.settingItem}
             onPress={() => setShowChangePassword(true)}
+            accessible={true}
+            accessibilityRole="button"
+            accessibilityLabel="Change Password"
+            accessibilityHint="Opens change password form"
           >
             <View style={styles.settingItemLeft}>
               <MaterialCommunityIcons
@@ -212,6 +246,32 @@ const ProfileScreen: React.FC = () => {
               size={24}
               color={colors.textSecondary}
             />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.settingItem}
+            onPress={() => setShowThemeModal(true)}
+            accessible={true}
+            accessibilityRole="button"
+            accessibilityLabel={`Theme: ${getThemeLabel(themeMode)}`}
+            accessibilityHint="Opens theme selection"
+          >
+            <View style={styles.settingItemLeft}>
+              <MaterialCommunityIcons
+                name={getThemeIcon(themeMode)}
+                size={20}
+                color={colors.text}
+              />
+              <Text style={styles.settingItemText}>Theme</Text>
+            </View>
+            <View style={styles.themeValueContainer}>
+              <Text style={styles.versionText}>{getThemeLabel(themeMode)}</Text>
+              <MaterialCommunityIcons
+                name="chevron-right"
+                size={24}
+                color={colors.textSecondary}
+              />
+            </View>
           </TouchableOpacity>
 
           <View style={styles.settingItem}>
@@ -321,6 +381,60 @@ const ProfileScreen: React.FC = () => {
             </View>
           </View>
         </View>
+      </Modal>
+
+      {/* Theme Selection Modal */}
+      <Modal
+        visible={showThemeModal}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowThemeModal(false)}
+        accessibilityViewIsModal={true}
+      >
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setShowThemeModal(false)}
+        >
+          <View style={styles.themeModalContent}>
+            <Text style={styles.themeModalTitle} accessibilityRole="header">Select Theme</Text>
+
+            {(['light', 'dark', 'system'] as ThemeMode[]).map((mode) => (
+              <TouchableOpacity
+                key={mode}
+                style={styles.themeOption}
+                onPress={() => handleThemeChange(mode)}
+                accessible={true}
+                accessibilityRole="radio"
+                accessibilityState={{ checked: themeMode === mode }}
+                accessibilityLabel={getThemeLabel(mode)}
+              >
+                <View style={styles.themeOptionLeft}>
+                  <MaterialCommunityIcons
+                    name={getThemeIcon(mode)}
+                    size={24}
+                    color={themeMode === mode ? colors.primary : colors.text}
+                  />
+                  <Text
+                    style={[
+                      styles.themeOptionText,
+                      themeMode === mode && styles.themeOptionTextActive,
+                    ]}
+                  >
+                    {getThemeLabel(mode)}
+                  </Text>
+                </View>
+                {themeMode === mode && (
+                  <MaterialCommunityIcons
+                    name="check"
+                    size={24}
+                    color={colors.primary}
+                  />
+                )}
+              </TouchableOpacity>
+            ))}
+          </View>
+        </TouchableOpacity>
       </Modal>
     </>
   );
@@ -483,6 +597,47 @@ const styles = StyleSheet.create({
   },
   modalButton: {
     minWidth: 120,
+  },
+  themeValueContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  themeModalContent: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: borderRadius.lg,
+    padding: spacing.lg,
+    marginHorizontal: spacing.lg,
+    maxWidth: 400,
+    width: '90%',
+    alignSelf: 'center',
+  },
+  themeModalTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: colors.text,
+    marginBottom: spacing.lg,
+    textAlign: 'center',
+  },
+  themeOption: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  themeOptionLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  themeOptionText: {
+    fontSize: 16,
+    color: colors.text,
+    marginLeft: spacing.md,
+  },
+  themeOptionTextActive: {
+    color: colors.primary,
+    fontWeight: '600',
   },
 });
 
