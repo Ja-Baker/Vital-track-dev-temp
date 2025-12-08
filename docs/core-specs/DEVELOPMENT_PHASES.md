@@ -4,6 +4,29 @@
 
 This document outlines the phased development approach for building VitalTrack. Each phase builds upon the previous one, with clear milestones and success criteria.
 
+## Important: Code vs Infrastructure
+
+This roadmap focuses on **CODE DEVELOPMENT** that Replit Agent can build. Each task is tagged:
+
+- **`[CODE]`** - Application code that Replit can generate (React Native components, API routes, etc.)
+- **`[INFRA]`** - Infrastructure setup that requires manual deployment (databases, hosting, certificates)
+- **`[HIPAA]`** - HIPAA compliance configuration required after deployment
+
+### Deployment Workflow
+
+```
+┌────────────────┐      ┌─────────────────┐      ┌──────────────────┐
+│  Replit Agent  │ -->  │  Your Hosting   │ -->  │ HIPAA Compliance │
+│  Builds Code   │      │  Infrastructure │      │  Configuration   │
+│    [CODE]      │      │     [INFRA]     │      │     [HIPAA]      │
+└────────────────┘      └─────────────────┘      └──────────────────┘
+```
+
+**See Also:**
+- [REPLIT_WORKFLOW.md](REPLIT_WORKFLOW.md) - How to use Replit Agent for development
+- [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) - Infrastructure setup procedures
+- [HIPAA_COMPLIANCE_CHECKLIST.md](HIPAA_COMPLIANCE_CHECKLIST.md) - Post-deployment compliance
+
 ---
 
 ## Phase 1: MVP Foundation (Weeks 1-8)
@@ -16,18 +39,20 @@ This document outlines the phased development approach for building VitalTrack. 
 - Basic database schema
 
 **Tasks:**
-- [ ] Initialize React Native project with TypeScript
-- [ ] Set up project structure (components, screens, services, hooks)
-- [ ] Configure ESLint, Prettier, TypeScript
-- [ ] Set up navigation (React Navigation)
-- [ ] Implement authentication flow
-  - [ ] Login screen UI
-  - [ ] JWT token management
-  - [ ] Secure token storage (Keychain/Keystore)
-  - [ ] Auto-refresh token logic
-  - [ ] Logout functionality
-- [ ] Create base API service (Axios)
-- [ ] Set up environment configuration (.env)
+- [ ] **[CODE]** Initialize React Native project with TypeScript
+- [ ] **[CODE]** Set up project structure (components, screens, services, hooks)
+- [ ] **[CODE]** Configure ESLint, Prettier, TypeScript
+- [ ] **[CODE]** Set up navigation (React Navigation)
+- [ ] **[CODE]** Implement authentication flow
+  - [ ] **[CODE]** Login screen UI
+  - [ ] **[CODE]** JWT token management (client-side)
+  - [ ] **[CODE]** Secure token storage (Keychain/Keystore)
+  - [ ] **[CODE]** Auto-refresh token logic
+  - [ ] **[CODE]** Logout functionality
+- [ ] **[CODE]** Create base API service (Axios)
+- [ ] **[CODE]** Set up environment configuration (.env)
+- [ ] **[INFRA]** Backend: JWT secret key generation and storage
+- [ ] **[HIPAA]** Configure audit logging for authentication events
 
 **Deliverables:**
 - Working login/logout flow
@@ -44,25 +69,28 @@ This document outlines the phased development approach for building VitalTrack. 
 - Real-time connection established
 
 **Tasks:**
-- [ ] Implement Resident List Screen
-  - [ ] Grid/list view of residents
-  - [ ] Status indicators (normal/warning/critical)
-  - [ ] Search and filter functionality
-  - [ ] Pull-to-refresh
-- [ ] Implement Resident Detail Screen
-  - [ ] Profile section with photo
-  - [ ] Tab navigation (Vitals, Activity, Alerts, Log)
-  - [ ] Current vitals display
-  - [ ] Medical conditions, medications, allergies
-- [ ] Set up Socket.io client
-  - [ ] Connection management
-  - [ ] Reconnection logic
-  - [ ] Event listeners for vital updates
-- [ ] Create reusable components
-  - [ ] VitalCard component
-  - [ ] ResidentCard component
-  - [ ] StatusBadge component
-  - [ ] LoadingSpinner component
+- [ ] **[CODE]** Implement Resident List Screen
+  - [ ] **[CODE]** Grid/list view of residents
+  - [ ] **[CODE]** Status indicators (normal/warning/critical)
+  - [ ] **[CODE]** Search and filter functionality
+  - [ ] **[CODE]** Pull-to-refresh
+- [ ] **[CODE]** Implement Resident Detail Screen
+  - [ ] **[CODE]** Profile section with photo
+  - [ ] **[CODE]** Tab navigation (Vitals, Activity, Alerts, Log)
+  - [ ] **[CODE]** Current vitals display
+  - [ ] **[CODE]** Medical conditions, medications, allergies
+- [ ] **[CODE]** Set up Socket.io client
+  - [ ] **[CODE]** Connection management
+  - [ ] **[CODE]** Reconnection logic
+  - [ ] **[CODE]** Event listeners for vital updates
+- [ ] **[CODE]** Create reusable components
+  - [ ] **[CODE]** VitalCard component
+  - [ ] **[CODE]** ResidentCard component
+  - [ ] **[CODE]** StatusBadge component
+  - [ ] **[CODE]** LoadingSpinner component
+- [ ] **[INFRA]** Deploy Socket.io server with WebSocket support
+- [ ] **[INFRA]** Set up PostgreSQL database with resident schema
+- [ ] **[HIPAA]** Encrypt PHI fields (medicalConditions, medications, allergies)
 
 **Deliverables:**
 - Browse all residents
@@ -79,24 +107,27 @@ This document outlines the phased development approach for building VitalTrack. 
 - Device status display
 
 **Tasks:**
-- [ ] Real-time vital updates
-  - [ ] Socket.io event handling
-  - [ ] State management for vitals
-  - [ ] Optimistic UI updates
-- [ ] Vital history charts
-  - [ ] Line chart component (Victory Native or react-native-chart-kit)
-  - [ ] Time range selector (24h, 7d, 30d)
-  - [ ] Multi-vital overlay
-  - [ ] Zoom/pan functionality
-- [ ] Activity tracking display
-  - [ ] Steps chart
-  - [ ] Sleep quality graph
-  - [ ] Activity trends
-- [ ] Device status component
-  - [ ] Battery level indicator
-  - [ ] Signal strength bars
-  - [ ] Last sync timestamp
-  - [ ] Connection status
+- [ ] **[CODE]** Real-time vital updates
+  - [ ] **[CODE]** Socket.io event handling
+  - [ ] **[CODE]** State management for vitals
+  - [ ] **[CODE]** Optimistic UI updates
+- [ ] **[CODE]** Vital history charts
+  - [ ] **[CODE]** Line chart component (Victory Native or react-native-chart-kit)
+  - [ ] **[CODE]** Time range selector (24h, 7d, 30d)
+  - [ ] **[CODE]** Multi-vital overlay
+  - [ ] **[CODE]** Zoom/pan functionality
+- [ ] **[CODE]** Activity tracking display
+  - [ ] **[CODE]** Steps chart
+  - [ ] **[CODE]** Sleep quality graph
+  - [ ] **[CODE]** Activity trends
+- [ ] **[CODE]** Device status component
+  - [ ] **[CODE]** Battery level indicator
+  - [ ] **[CODE]** Signal strength bars
+  - [ ] **[CODE]** Last sync timestamp
+  - [ ] **[CODE]** Connection status
+- [ ] **[INFRA]** Set up TimescaleDB for time-series vital data
+- [ ] **[INFRA]** Configure vital data ingestion endpoint
+- [ ] **[HIPAA]** Implement data retention policies (2 years granular, 7 years aggregated)
 
 **Deliverables:**
 - Live updating vital displays
@@ -113,36 +144,64 @@ This document outlines the phased development approach for building VitalTrack. 
 - Alert acknowledgment flow
 
 **Tasks:**
-- [ ] Alerts List Screen
-  - [ ] Filter by status (active, acknowledged, resolved)
-  - [ ] Filter by type (critical, warning, info)
-  - [ ] Sort by time, severity
-  - [ ] Pull-to-refresh
-- [ ] Alert Detail Screen
-  - [ ] Alert information display
-  - [ ] Acknowledge button
-  - [ ] Resolve button with outcome selection
-  - [ ] Notes input
-  - [ ] Timeline of actions
-- [ ] Alert banner component
-  - [ ] Slide-down animation
-  - [ ] Priority styling
-  - [ ] Quick actions
-- [ ] Push notifications setup
-  - [ ] Firebase Cloud Messaging integration
-  - [ ] Notification permissions
-  - [ ] Foreground notification handling
-  - [ ] Background notification handling
-  - [ ] Deep linking to alert
-- [ ] Socket.io alert events
-  - [ ] New alert notification
-  - [ ] Alert update handling
-  - [ ] Alert acknowledgment broadcast
+- [ ] **[CODE]** Alerts List Screen
+  - [ ] **[CODE]** Filter by status (active, acknowledged, resolved)
+  - [ ] **[CODE]** Filter by type (critical, warning, info)
+  - [ ] **[CODE]** Sort by time, severity
+  - [ ] **[CODE]** Pull-to-refresh
+- [ ] **[CODE]** Alert Detail Screen
+  - [ ] **[CODE]** Alert information display
+  - [ ] **[CODE]** Acknowledge button
+  - [ ] **[CODE]** Resolve button with outcome selection
+  - [ ] **[CODE]** Notes input
+  - [ ] **[CODE]** Timeline of actions
+- [ ] **[CODE]** Alert banner component
+  - [ ] **[CODE]** Slide-down animation
+  - [ ] **[CODE]** Priority styling
+  - [ ] **[CODE]** Quick actions
+- [ ] **[CODE]** Push notifications setup
+  - [ ] **[CODE]** Firebase Cloud Messaging integration
+  - [ ] **[CODE]** Notification permissions
+  - [ ] **[CODE]** Foreground notification handling
+  - [ ] **[CODE]** Background notification handling
+  - [ ] **[CODE]** Deep linking to alert
+- [ ] **[CODE]** Socket.io alert events
+  - [ ] **[CODE]** New alert notification
+  - [ ] **[CODE]** Alert update handling
+  - [ ] **[CODE]** Alert acknowledgment broadcast
+- [ ] **[INFRA]** Configure Firebase Cloud Messaging backend
+- [ ] **[INFRA]** Set up alert generation engine with threshold monitoring
+- [ ] **[HIPAA]** Audit all alert acknowledgments and resolutions
 
 **Deliverables:**
 - Full alert workflow
 - Push notifications working
 - Real-time alert updates
+
+---
+
+### Phase 1 Infrastructure Requirements
+
+Before deploying Phase 1 code to production, you must have:
+
+**Required Infrastructure (`[INFRA]` tasks):**
+- ✅ Node.js/Express backend hosting
+- ✅ PostgreSQL database with TimescaleDB extension
+- ✅ Redis cache layer
+- ✅ Socket.io server with WebSocket support
+- ✅ Firebase Cloud Messaging configuration
+- ✅ S3 or equivalent file storage for resident photos
+- ✅ TLS 1.3 certificates for HTTPS
+
+**Required HIPAA Configuration (`[HIPAA]` tasks):**
+- ✅ Audit logging enabled for all PHI access
+- ✅ Field-level encryption for PHI (medicalConditions, medications, allergies)
+- ✅ JWT secret keys securely stored
+- ✅ Encryption keys generated and stored (separate from database)
+- ✅ Data retention policies configured
+- ✅ BAA signed with cloud provider and Firebase
+
+**See:** [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) and [HIPAA_COMPLIANCE_CHECKLIST.md](HIPAA_COMPLIANCE_CHECKLIST.md)
 
 ---
 
@@ -169,22 +228,24 @@ This document outlines the phased development approach for building VitalTrack. 
 - Fall detection events
 
 **Tasks:**
-- [ ] Map integration (react-native-maps)
-  - [ ] Facility map view
-  - [ ] Resident location markers
-  - [ ] Color-coded status
-  - [ ] Breadcrumb trail display
-- [ ] Geofence visualization
-  - [ ] Draw facility boundary
-  - [ ] Zone overlays (safe, restricted, high-risk)
-- [ ] Location alerts
-  - [ ] Wandering detection alerts
-  - [ ] Geofence breach notifications
-- [ ] Fall detection
-  - [ ] Fall event display
-  - [ ] Fall location on map
-  - [ ] Fall history list
-  - [ ] Severity indicators
+- [ ] **[CODE]** Map integration (react-native-maps)
+  - [ ] **[CODE]** Facility map view
+  - [ ] **[CODE]** Resident location markers
+  - [ ] **[CODE]** Color-coded status
+  - [ ] **[CODE]** Breadcrumb trail display
+- [ ] **[CODE]** Geofence visualization
+  - [ ] **[CODE]** Draw facility boundary
+  - [ ] **[CODE]** Zone overlays (safe, restricted, high-risk)
+- [ ] **[CODE]** Location alerts
+  - [ ] **[CODE]** Wandering detection alerts
+  - [ ] **[CODE]** Geofence breach notifications
+- [ ] **[CODE]** Fall detection
+  - [ ] **[CODE]** Fall event display
+  - [ ] **[CODE]** Fall location on map
+  - [ ] **[CODE]** Fall history list
+  - [ ] **[CODE]** Severity indicators
+- [ ] **[INFRA]** Configure geofencing backend logic
+- [ ] **[INFRA]** Set up device location tracking ingestion
 
 **Deliverables:**
 - Interactive facility map
@@ -201,28 +262,31 @@ This document outlines the phased development approach for building VitalTrack. 
 - Shift handoff support
 
 **Tasks:**
-- [ ] Care Log Screen
-  - [ ] Chronological log display
-  - [ ] Entry type filters
-  - [ ] Create new entry
-  - [ ] Photo attachment support
-- [ ] Care log entry form
-  - [ ] Type selection (check-in, medication, incident, note)
-  - [ ] Rich text input
-  - [ ] Photo capture/upload
-  - [ ] Link to alert (if responding)
-- [ ] SOS workflow
-  - [ ] Full-screen SOS alert
-  - [ ] Audio alarm
-  - [ ] Map with resident location
-  - [ ] Acknowledge flow
-  - [ ] Resolution documentation
-  - [ ] Family notification trigger
-- [ ] Shift handoff
-  - [ ] Shift summary view
-  - [ ] Pending alerts list
-  - [ ] Key events since last shift
-  - [ ] Notes for next shift
+- [ ] **[CODE]** Care Log Screen
+  - [ ] **[CODE]** Chronological log display
+  - [ ] **[CODE]** Entry type filters
+  - [ ] **[CODE]** Create new entry
+  - [ ] **[CODE]** Photo attachment support
+- [ ] **[CODE]** Care log entry form
+  - [ ] **[CODE]** Type selection (check-in, medication, incident, note)
+  - [ ] **[CODE]** Rich text input
+  - [ ] **[CODE]** Photo capture/upload
+  - [ ] **[CODE]** Link to alert (if responding)
+- [ ] **[CODE]** SOS workflow
+  - [ ] **[CODE]** Full-screen SOS alert
+  - [ ] **[CODE]** Audio alarm
+  - [ ] **[CODE]** Map with resident location
+  - [ ] **[CODE]** Acknowledge flow
+  - [ ] **[CODE]** Resolution documentation
+  - [ ] **[CODE]** Family notification trigger
+- [ ] **[CODE]** Shift handoff
+  - [ ] **[CODE]** Shift summary view
+  - [ ] **[CODE]** Pending alerts list
+  - [ ] **[CODE]** Key events since last shift
+  - [ ] **[CODE]** Notes for next shift
+- [ ] **[INFRA]** Configure S3 bucket for care log photos
+- [ ] **[HIPAA]** Encrypt care log content and photos
+- [ ] **[HIPAA]** Audit all care log entries
 
 **Deliverables:**
 - Complete care documentation
@@ -239,26 +303,28 @@ This document outlines the phased development approach for building VitalTrack. 
 - Export capabilities
 
 **Tasks:**
-- [ ] Analytics Dashboard
-  - [ ] Facility overview stats
-  - [ ] Alert statistics
-  - [ ] Response time metrics
-  - [ ] Device fleet health
-- [ ] Resident analytics
-  - [ ] Weekly health report
-  - [ ] Trend analysis
-  - [ ] Baseline comparisons
-  - [ ] Predictive risk indicators
-- [ ] Charts and visualizations
-  - [ ] Alert heatmap (by hour)
-  - [ ] Response time trends
-  - [ ] Fall frequency chart
-  - [ ] Sleep pattern graphs
-- [ ] Data export
-  - [ ] Export as PDF
-  - [ ] Export as CSV
-  - [ ] Share functionality
-  - [ ] Print support
+- [ ] **[CODE]** Analytics Dashboard
+  - [ ] **[CODE]** Facility overview stats
+  - [ ] **[CODE]** Alert statistics
+  - [ ] **[CODE]** Response time metrics
+  - [ ] **[CODE]** Device fleet health
+- [ ] **[CODE]** Resident analytics
+  - [ ] **[CODE]** Weekly health report
+  - [ ] **[CODE]** Trend analysis
+  - [ ] **[CODE]** Baseline comparisons
+  - [ ] **[CODE]** Predictive risk indicators
+- [ ] **[CODE]** Charts and visualizations
+  - [ ] **[CODE]** Alert heatmap (by hour)
+  - [ ] **[CODE]** Response time trends
+  - [ ] **[CODE]** Fall frequency chart
+  - [ ] **[CODE]** Sleep pattern graphs
+- [ ] **[CODE]** Data export
+  - [ ] **[CODE]** Export as PDF
+  - [ ] **[CODE]** Export as CSV
+  - [ ] **[CODE]** Share functionality
+  - [ ] **[CODE]** Print support
+- [ ] **[INFRA]** Set up analytics data aggregation jobs
+- [ ] **[HIPAA]** Ensure exported data maintains PHI protection
 
 **Deliverables:**
 - Analytics dashboard
@@ -275,31 +341,33 @@ This document outlines the phased development approach for building VitalTrack. 
 - Final testing
 
 **Tasks:**
-- [ ] Performance optimization
-  - [ ] List virtualization (FlatList optimization)
-  - [ ] Image caching
-  - [ ] Bundle size reduction
-  - [ ] Memory leak fixes
-- [ ] Offline support
-  - [ ] Data caching strategy
-  - [ ] Offline indicator
-  - [ ] Queue actions for sync
-  - [ ] Conflict resolution
-- [ ] Accessibility
-  - [ ] Screen reader support
-  - [ ] Touch target sizing
-  - [ ] Color contrast check
-  - [ ] Font scaling
-- [ ] Testing
-  - [ ] Unit tests (Jest)
-  - [ ] Integration tests
-  - [ ] E2E tests (Detox)
-  - [ ] Performance testing
-- [ ] Bug fixes and polish
-  - [ ] Animation refinement
-  - [ ] Error handling
-  - [ ] Loading states
-  - [ ] Empty states
+- [ ] **[CODE]** Performance optimization
+  - [ ] **[CODE]** List virtualization (FlatList optimization)
+  - [ ] **[CODE]** Image caching
+  - [ ] **[CODE]** Bundle size reduction
+  - [ ] **[CODE]** Memory leak fixes
+- [ ] **[CODE]** Offline support
+  - [ ] **[CODE]** Data caching strategy
+  - [ ] **[CODE]** Offline indicator
+  - [ ] **[CODE]** Queue actions for sync
+  - [ ] **[CODE]** Conflict resolution
+- [ ] **[CODE]** Accessibility
+  - [ ] **[CODE]** Screen reader support
+  - [ ] **[CODE]** Touch target sizing
+  - [ ] **[CODE]** Color contrast check
+  - [ ] **[CODE]** Font scaling
+- [ ] **[CODE]** Testing
+  - [ ] **[CODE]** Unit tests (Jest)
+  - [ ] **[CODE]** Integration tests
+  - [ ] **[CODE]** E2E tests (Detox)
+  - [ ] **[CODE]** Performance testing
+- [ ] **[CODE]** Bug fixes and polish
+  - [ ] **[CODE]** Animation refinement
+  - [ ] **[CODE]** Error handling
+  - [ ] **[CODE]** Loading states
+  - [ ] **[CODE]** Empty states
+- [ ] **[INFRA]** Configure CDN for image caching
+- [ ] **[INFRA]** Set up performance monitoring (New Relic/Datadog)
 
 **Deliverables:**
 - Performant, polished app
@@ -310,40 +378,48 @@ This document outlines the phased development approach for building VitalTrack. 
 
 ## Phase 3: Enterprise Features (Weeks 17-24)
 
+> **Note:** Phase 3 tasks are primarily **[CODE]** tasks for UI/features, with some **[INFRA]** requirements for advanced capabilities like ML models and EHR integrations. All features require **[HIPAA]** compliance review.
+
 ### Week 17-18: Admin Features
 
 **Tasks:**
-- [ ] User management screens
-- [ ] Facility management
-- [ ] Device fleet management
-- [ ] Threshold configuration UI
-- [ ] Bulk operations
+- [ ] **[CODE]** User management screens
+- [ ] **[CODE]** Facility management
+- [ ] **[CODE]** Device fleet management
+- [ ] **[CODE]** Threshold configuration UI
+- [ ] **[CODE]** Bulk operations
+- [ ] **[HIPAA]** Admin action audit logging
 
 ### Week 19-20: Family App
 
 **Tasks:**
-- [ ] Simplified family dashboard
-- [ ] Single resident focus
-- [ ] Weekly health reports
-- [ ] Caregiver messaging
-- [ ] Alert notification preferences
+- [ ] **[CODE]** Simplified family dashboard
+- [ ] **[CODE]** Single resident focus
+- [ ] **[CODE]** Weekly health reports
+- [ ] **[CODE]** Caregiver messaging
+- [ ] **[CODE]** Alert notification preferences
+- [ ] **[INFRA]** Separate Firebase project for family app (optional)
+- [ ] **[HIPAA]** Family-specific access controls
 
 ### Week 21-22: Advanced Analytics
 
 **Tasks:**
-- [ ] Predictive fall risk (ML model)
-- [ ] Health decline detection
-- [ ] Anomaly detection
-- [ ] Comparative analytics
+- [ ] **[CODE]** Predictive fall risk UI
+- [ ] **[CODE]** Health decline detection alerts
+- [ ] **[CODE]** Anomaly detection display
+- [ ] **[CODE]** Comparative analytics dashboard
+- [ ] **[INFRA]** ML model training pipeline
+- [ ] **[INFRA]** Model serving infrastructure
 
 ### Week 23-24: Integrations & Compliance
 
 **Tasks:**
-- [ ] EHR integration (HL7/FHIR)
-- [ ] White-labeling support
-- [ ] SOC 2 compliance features
-- [ ] Multi-facility rollup
-- [ ] API for third-party integrations
+- [ ] **[CODE]** EHR integration client (HL7/FHIR)
+- [ ] **[CODE]** White-labeling UI support
+- [ ] **[CODE]** Multi-facility rollup dashboard
+- [ ] **[CODE]** Public API documentation
+- [ ] **[INFRA]** FHIR server or integration middleware
+- [ ] **[HIPAA]** SOC 2 compliance audit preparation
 
 ---
 
@@ -437,7 +513,19 @@ src/
 
 ---
 
-## Getting Started Command
+## Development Setup
+
+### Using Replit Agent (Recommended)
+
+See [REPLIT_WORKFLOW.md](REPLIT_WORKFLOW.md) for detailed instructions on using Replit Agent to build VitalTrack.
+
+**Quick Start:**
+1. Create Replit project: `vitaltrack-ios` (React Native template)
+2. Use Replit Agent to generate code based on this roadmap
+3. Test with mock data in Replit
+4. Export code and deploy to your HIPAA-compliant infrastructure
+
+### Local Development (Alternative)
 
 ```bash
 # Initialize React Native project
@@ -452,10 +540,14 @@ cd ios && pod install && cd ..
 
 # Run on iOS simulator
 npx react-native run-ios
-
-# Run on Android emulator
-npx react-native run-android
 ```
+
+### Infrastructure Setup
+
+After building the code, follow these deployment guides:
+1. **[DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)** - Set up HIPAA-compliant hosting
+2. **[HIPAA_COMPLIANCE_CHECKLIST.md](HIPAA_COMPLIANCE_CHECKLIST.md)** - Complete compliance configuration
+3. **[SECURITY.md](SECURITY.md)** - Security implementation reference
 
 ---
 
