@@ -438,7 +438,6 @@ src/
 ---
 
 ## Getting Started Command
-## Getting Started Command
 
 ```bash
 # Initialize React Native project
