@@ -353,7 +353,23 @@ Authorization: Bearer <DEVICE_API_KEY>
 Content-Type: application/json
 ```
 
-**Request:** (See ARCHITECTURE.md for full payload)
+**Request:**
+```json
+{
+  "deviceId": "IMEI_123456789",
+  "timestamp": "2024-12-07T10:30:00Z",
+  "vitals": {
+    "heartRate": 72,
+    "spo2": 97,
+    "bloodPressure": { "systolic": 120, "diastolic": 80 },
+    "skinTemperature": 98.2
+  },
+  "activity": { "steps": 3420 },
+  "location": { "latitude": 38.9517, "longitude": -92.3341 },
+  "device": { "batteryLevel": 65, "signalStrength": 4 },
+  "events": { "fallDetected": false, "sosPressed": false }
+}
+```
 
 ### POST /residents/:id/vitals/export
 Export vital data as CSV or PDF.

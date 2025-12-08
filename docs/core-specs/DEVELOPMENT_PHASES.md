@@ -438,15 +438,10 @@ src/
 ---
 
 ## Getting Started Command
+## Getting Started Command
 
 ```bash
-# Clone repository
-git clone https://github.com/Ja-Baker/Vital-Track.git
-cd Vital-Track
-git checkout IPHONE
-
 # Initialize React Native project
-cd vitaltrack-ios
 npx react-native init VitalTrack --template react-native-template-typescript
 cd VitalTrack
 
@@ -508,10 +503,8 @@ npx react-native run-android
 
 ---
 
-## Support Resources
+## Related Documents
 
-- **Web Dashboard Reference**: `WEB` branch
-- **Backend API Reference**: `main` branch
-- **API Documentation**: `docs/API_SPEC.md`
-- **UI Components**: `docs/UI_SPEC.md`
-- **Security Guidelines**: `docs/SECURITY.md`
+- **API Documentation**: `API_SPEC.md`
+- **UI Components**: `UI_SPEC.md`
+- **Security Guidelines**: `SECURITY.md`
