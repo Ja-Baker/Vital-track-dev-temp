@@ -11,7 +11,12 @@
     "start": "node src/server/index.js",
     "db:seed": "psql $DATABASE_URL -f src/db/seed.sql"
   },
-  "keywords": ["health", "monitoring", "senior-care", "hipaa"],
+  "keywords": [
+    "health",
+    "monitoring",
+    "senior-care",
+    "hipaa"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
@@ -27,7 +32,9 @@
     "pg": "^8.16.3",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
+    "recharts": "^3.5.1",
     "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
     "vite": "^7.2.7"
   }
 }

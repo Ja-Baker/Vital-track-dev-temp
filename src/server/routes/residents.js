@@ -237,6 +237,31 @@ router.get('/:id/vitals/latest', authenticate, async (req, res) => {
   }
 });
 
+router.get('/:id/vitals/history', authenticate, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { hours = 24 } = req.query;
+
+    const result = await db.query(`
+      SELECT * FROM vital_readings
+      WHERE resident_id = $1 AND timestamp >= NOW() - INTERVAL '1 hour' * $2
+      ORDER BY timestamp ASC
+    `, [id, hours]);
+
+    res.json({
+      vitals: result.rows.map(v => ({
+        recordedAt: v.timestamp,
+        heartRate: v.heart_rate,
+        spo2: v.spo2,
+        temperature: v.temperature
+      }))
+    });
+  } catch (error) {
+    console.error('Get vitals history error:', error);
+    res.status(500).json({ error: { code: 'SERVER_ERROR', message: 'Failed to get vitals history' } });
+  }
+});
+
 router.get('/:id/vitals', authenticate, async (req, res) => {
   try {
     const { id } = req.params;
