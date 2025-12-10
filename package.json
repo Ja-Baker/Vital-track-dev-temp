@@ -22,6 +22,7 @@
   "dependencies": {
     "@vitejs/plugin-react": "^5.1.2",
     "bcryptjs": "^3.0.3",
+    "concurrently": "^8.2.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "express": "^5.2.1",
@@ -30,6 +31,7 @@
     "jsonwebtoken": "^9.0.3",
     "marked": "^17.0.1",
     "pg": "^8.16.3",
+    "prop-types": "^15.8.1",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "recharts": "^3.5.1",

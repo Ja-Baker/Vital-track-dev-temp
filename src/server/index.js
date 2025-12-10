@@ -18,11 +18,27 @@ const server = http.createServer(app);
 
 app.set('trust proxy', 1);
 
-const io = new Server(server, {
-  cors: {
-    origin: '*',
-    methods: ['GET', 'POST']
+// Configure allowed origins based on environment
+const getAllowedOrigins = () => {
+  if (process.env.ALLOWED_ORIGINS) {
+    return process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim());
   }
+  // In production, restrict to same-origin; in development, allow localhost
+  if (process.env.NODE_ENV === 'production') {
+    return false; // Same-origin only
+  }
+  return ['http://localhost:5173', 'http://localhost:3001'];
+};
+
+const corsOptions = {
+  origin: getAllowedOrigins(),
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+const io = new Server(server, {
+  cors: corsOptions
 });
 
 app.use(helmet({
@@ -30,10 +46,7 @@ app.use(helmet({
   crossOriginEmbedderPolicy: false
 }));
 
-app.use(cors({
-  origin: '*',
-  credentials: true
-}));
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(cookieParser());

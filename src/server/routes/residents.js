@@ -1,13 +1,36 @@
 const express = require('express');
 const db = require('../../db');
 const { authenticate, requireRole } = require('../middleware/auth');
+const {
+  validatePagination,
+  validateEnum,
+  sanitizeString,
+  validateHours,
+  validationError
+} = require('../utils/validation');
 
 const router = express.Router();
 
+// Valid status values for residents
+const VALID_STATUSES = ['active', 'inactive', 'discharged'];
+
 router.get('/', authenticate, async (req, res) => {
   try {
-    const { status, search, page = 1, limit = 50 } = req.query;
-    const offset = (page - 1) * limit;
+    const { status, search } = req.query;
+
+    // Validate pagination
+    const { page, limit, offset } = validatePagination(req.query.page, req.query.limit);
+
+    // Validate status if provided
+    if (status) {
+      const statusValidation = validateEnum(status, VALID_STATUSES, 'status');
+      if (!statusValidation.valid) {
+        return res.status(400).json(validationError(statusValidation.error));
+      }
+    }
+
+    // Sanitize search input
+    const sanitizedSearch = sanitizeString(search, 100);
 
     let query = `
       SELECT 
@@ -49,9 +72,9 @@ router.get('/', authenticate, async (req, res) => {
       paramIndex++;
     }
 
-    if (search) {
+    if (sanitizedSearch) {
       query += ` AND (r.first_name ILIKE $${paramIndex} OR r.last_name ILIKE $${paramIndex} OR r.room_number ILIKE $${paramIndex})`;
-      params.push(`%${search}%`);
+      params.push(`%${sanitizedSearch}%`);
       paramIndex++;
     }
 
@@ -240,7 +263,7 @@ router.get('/:id/vitals/latest', authenticate, async (req, res) => {
 router.get('/:id/vitals/history', authenticate, async (req, res) => {
   try {
     const { id } = req.params;
-    const { hours = 24 } = req.query;
+    const hours = validateHours(req.query.hours);
 
     const result = await db.query(`
       SELECT * FROM vital_readings
@@ -265,7 +288,10 @@ router.get('/:id/vitals/history', authenticate, async (req, res) => {
 router.get('/:id/vitals', authenticate, async (req, res) => {
   try {
     const { id } = req.params;
-    const { from, to, type, limit = 100 } = req.query;
+    const { from, to, type } = req.query;
+
+    // Validate and limit the limit parameter
+    const limit = Math.min(1000, Math.max(1, parseInt(req.query.limit) || 100));
 
     let query = `
       SELECT * FROM vital_readings
