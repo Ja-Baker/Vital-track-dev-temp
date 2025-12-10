@@ -1111,21 +1111,21 @@ function MainApp({ user, onLogout }) {
     newSocket.on('connect', () => {
       console.log('Socket connected');
       if (user.facilityId) {
-        newSocket.emit('join:facility', user.facilityId);
+        newSocket.emit('join-facility', user.facilityId);
       }
     });
 
-    newSocket.on('vital:update', (data) => {
+    newSocket.on('vital-update', (data) => {
       setResidents(prev => prev.map(r => 
         r.id === data.residentId ? { ...r, latestVitals: data.vitals } : r
       ));
     });
 
-    newSocket.on('alert:new', (alert) => {
+    newSocket.on('new-alert', (alert) => {
       setAlerts(prev => [alert, ...prev]);
     });
 
-    newSocket.on('alert:update', (updatedAlert) => {
+    newSocket.on('alert-update', (updatedAlert) => {
       setAlerts(prev => prev.map(a => a.id === updatedAlert.id ? updatedAlert : a));
     });
 

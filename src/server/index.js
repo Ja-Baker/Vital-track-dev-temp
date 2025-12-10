@@ -11,9 +11,12 @@ const authRoutes = require('./routes/auth');
 const residentRoutes = require('./routes/residents');
 const alertRoutes = require('./routes/alerts');
 const facilityRoutes = require('./routes/facilities');
+const { startVitalSimulator } = require('./services/vitalSimulator');
 
 const app = express();
 const server = http.createServer(app);
+
+app.set('trust proxy', 1);
 
 const io = new Server(server, {
   cors: {
@@ -97,6 +100,8 @@ const PORT = process.env.PORT || 3001;
 
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`VitalTrack API Server running on port ${PORT}`);
+  
+  startVitalSimulator(io, emitVitalUpdate, emitNewAlert);
 });
 
 module.exports = { app, server, io };
