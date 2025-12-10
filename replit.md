@@ -5,15 +5,40 @@ VitalTrack is a real-time health monitoring application for senior care faciliti
 
 ## Current State
 - **Phase 1 Complete**: Foundation & Authentication
+- **Phase 2 Complete**: Core Data & Resident Management
 - Full-stack application with React frontend and Node.js/Express backend
 - PostgreSQL database with complete schema
 - JWT-based authentication with refresh tokens
 - Role-based access control (Admin, Caregiver, Family)
 - Real-time capabilities via Socket.io
+- Interactive dashboard with navigation tabs
+- Resident list with search/filter functionality
+- Resident detail view with vital charts
 
 ## Demo Credentials
 - **Admin**: admin@sunnyacres.com / admin123
 - **Caregiver**: jane.smith@sunnyacres.com / admin123
+
+## Features Implemented
+
+### Phase 1: Authentication & Foundation
+- Secure JWT authentication with refresh tokens
+- Role-based access control (Admin, Caregiver, Family)
+- HIPAA-ready audit logging
+- PostgreSQL database with healthcare schema
+
+### Phase 2: Resident Management
+- Dashboard with real-time stats and alerts
+- Navigation tabs: Dashboard, Residents, Alerts, Analytics, Settings
+- Resident grid with status indicators (Normal/Warning/Critical)
+- Search and filter by name, room, status
+- Resident detail modal with tabs:
+  - Vitals tab with current readings and 24h charts
+  - Activity tab with steps, sleep, active time
+  - Alerts tab for resident-specific alerts
+  - Care Log tab for documentation
+- Real-time vital charts using Recharts
+- Socket.io client for live updates
 
 ## Project Structure
 ```
@@ -46,7 +71,7 @@ VitalTrack is a real-time health monitoring application for senior care faciliti
 ```
 
 ## Tech Stack
-- **Frontend**: React 19, Vite
+- **Frontend**: React 19, Vite, Recharts
 - **Backend**: Node.js, Express 5
 - **Database**: PostgreSQL
 - **Real-time**: Socket.io
@@ -58,9 +83,10 @@ VitalTrack is a real-time health monitoring application for senior care faciliti
 - `POST /api/auth/refresh` - Refresh token
 - `POST /api/auth/logout` - User logout
 - `GET /api/auth/me` - Get current user
-- `GET /api/residents` - List residents
+- `GET /api/residents` - List residents with search/filter
 - `GET /api/residents/:id` - Get resident details
 - `GET /api/residents/:id/vitals/latest` - Get latest vitals
+- `GET /api/residents/:id/vitals/history` - Get vital history for charts
 - `GET /api/alerts` - List alerts
 - `POST /api/alerts/:id/acknowledge` - Acknowledge alert
 - `POST /api/alerts/:id/resolve` - Resolve alert
@@ -84,15 +110,15 @@ VitalTrack is a real-time health monitoring application for senior care faciliti
 - `npm run db:seed` - Seed database with demo data
 
 ## Environment Variables
-The application uses these environment variables:
 - `DATABASE_URL` - PostgreSQL connection string
-- `JWT_SECRET` - JWT signing secret (auto-generated if not set)
-- `JWT_REFRESH_SECRET` - Refresh token secret (auto-generated if not set)
+- `JWT_SECRET` - JWT signing secret (configured)
+- `JWT_REFRESH_SECRET` - Refresh token secret (configured)
 - `PORT` - API server port (default: 3001)
 
 ## Next Development Phases
-1. **Phase 2**: Core Data & Resident Management
-2. **Phase 3**: Real-time Vitals & Charts
-3. **Phase 4**: Alert System
-4. **Phase 5**: Location, Care Logs & Analytics
-5. **Phase 6**: Security & HIPAA Preparation
+1. ~~Phase 1: Foundation & Authentication~~ ✓
+2. ~~Phase 2: Core Data & Resident Management~~ ✓
+3. **Phase 3**: Real-time Vitals & Charts enhancements
+4. **Phase 4**: Alert System with notifications
+5. **Phase 5**: Location, Care Logs & Analytics
+6. **Phase 6**: Security & HIPAA Preparation
