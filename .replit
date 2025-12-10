@@ -4,6 +4,7 @@ expertMode = true
 
 [nix]
 channel = "stable-25_05"
+packages = ["postgresql"]
 
 [workflows]
 runButton = "Project"
@@ -15,15 +16,15 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Documentation Server"
+args = "VitalTrack"
 
 [[workflows.workflow]]
-name = "Documentation Server"
+name = "VitalTrack"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "node server.js"
+args = "node run.js"
 waitForPort = 5000
 
 [workflows.workflow.metadata]
@@ -33,10 +34,13 @@ outputType = "webview"
 localPort = 5000
 externalPort = 80
 
-[[ports]]
-localPort = 42155
-externalPort = 3000
-
 [deployment]
 deploymentTarget = "autoscale"
-run = ["node", "server.js"]
+run = ["node", "src/server/index.js"]
+build = ["npm", "run", "build"]
+
+[userenv]
+
+[userenv.shared]
+JWT_SECRET = "e1bf294dca4ccb3f30800302b1a8f7f74078687b8e545b06f4cc797261dfa6ba"
+JWT_REFRESH_SECRET = "a9c8d7e6f5b4a3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b9c8"

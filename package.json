@@ -1,19 +1,33 @@
 {
-  "name": "workspace",
+  "name": "vitaltrack",
   "version": "1.0.0",
   "description": "Real-time health monitoring for senior care facilities.",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
+  "main": "src/server/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "node src/server/index.js",
+    "client": "vite --config src/client/vite.config.js",
+    "build": "vite build --config src/client/vite.config.js",
+    "start": "node src/server/index.js",
+    "db:seed": "psql $DATABASE_URL -f src/db/seed.sql"
   },
-  "keywords": [],
+  "keywords": ["health", "monitoring", "senior-care", "hipaa"],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
+    "@vitejs/plugin-react": "^5.1.2",
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
     "express": "^5.2.1",
-    "marked": "^17.0.1"
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "marked": "^17.0.1",
+    "pg": "^8.16.3",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "socket.io": "^4.8.1",
+    "vite": "^7.2.7"
   }
 }
