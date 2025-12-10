@@ -6,6 +6,7 @@ VitalTrack is a real-time health monitoring application for senior care faciliti
 ## Current State
 - **Phase 1 Complete**: Foundation & Authentication
 - **Phase 2 Complete**: Core Data & Resident Management
+- **Phase 3 Complete**: Real-time Vitals & Alert System
 - Full-stack application with React frontend and Node.js/Express backend
 - PostgreSQL database with complete schema
 - JWT-based authentication with refresh tokens
@@ -39,6 +40,14 @@ VitalTrack is a real-time health monitoring application for senior care faciliti
   - Care Log tab for documentation
 - Real-time vital charts using Recharts
 - Socket.io client for live updates
+
+### Phase 3: Real-time Vitals & Alert System
+- Vital sign simulator generating realistic data every 30 seconds
+- Threshold-based alert engine (heart rate, SpO2, temperature)
+- Critical and warning severity levels with automatic deduplication
+- Socket.io real-time broadcasts for vital updates and new alerts
+- Frontend synchronized with live data streams
+- Battery and signal strength tracking for devices
 
 ## Project Structure
 ```
@@ -118,7 +127,7 @@ VitalTrack is a real-time health monitoring application for senior care faciliti
 ## Next Development Phases
 1. ~~Phase 1: Foundation & Authentication~~ ✓
 2. ~~Phase 2: Core Data & Resident Management~~ ✓
-3. **Phase 3**: Real-time Vitals & Charts enhancements
-4. **Phase 4**: Alert System with notifications
-5. **Phase 5**: Location, Care Logs & Analytics
+3. ~~Phase 3: Real-time Vitals & Alert System~~ ✓
+4. **Phase 4**: Location, Geofencing & Fall Detection
+5. **Phase 5**: Care Logs & Analytics Dashboard
 6. **Phase 6**: Security & HIPAA Preparation
